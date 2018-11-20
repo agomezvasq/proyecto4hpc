@@ -1,14 +1,16 @@
 import os.path
-import codecs
-from io import open
 import timeit
 import sys
 import pandas as pd
 import unicodedata
-
+import re
 
 frecs = {} #{ 'car': {17065: 1, 17066: 2}, 'bike': {17065: 5, 17066: 4, 17034: 6} }
 titles = {}
+
+rx = re.compile(ur'[.,:;?\"!()\[\]{}]')
+#Test regex
+#print(rx.sub(u' ', u'(hola()) como [estas] hey? \'yo no se\' :v ;v hey!!'))
 
 
 def aggregate(word):
@@ -28,7 +30,7 @@ while os.path.isfile('/opt/datasets/articles%d.csv' % i):
     file_start_time = timeit.default_timer()
     for row in df.itertuples():
         docId = int(row[1])
-        title = unicodedata.normalize('NFKD', unicode(row[2]))
+        title = unicodedata.normalize('NFKD', unicode(row[2])).strip(u'\n ')
         publication = unicodedata.normalize('NFKD', unicode(row[3]))
         author = unicodedata.normalize('NFKD', unicode(row[4]))
         date = str(row[5])
@@ -45,6 +47,10 @@ while os.path.isfile('/opt/datasets/articles%d.csv' % i):
         allContent = allContent.replace(u'\u201c', u'"')
         allContent = allContent.replace(u'\u201d', u'"')
         allContent = allContent.replace(u'\u2014', u'-')
+
+        #Unnecessary characters
+        allContent = rx.sub(u' ', allContent)
+        
         #Make it lowercase
         allContent = allContent.lower()
 
@@ -52,8 +58,8 @@ while os.path.isfile('/opt/datasets/articles%d.csv' % i):
         #Remove empty strings
         sp = filter(None, sp)
         for word in sp:      
-            #Strip unnecessary characters      
-            word = word.strip(u' ,.:;?\'\"!()[]{}')
+            #Strip spaces      
+            word = word.strip(u' ')
 
             if not word:
                 continue
@@ -79,6 +85,9 @@ while os.path.isfile('/opt/datasets/articles%d.csv' % i):
                 
 print('Tiempo: ' + str(int(round((timeit.default_timer() - start_time) * 1000))) + 'ms')
 print(str(len(frecs)) + ' palabras en ' + str(tn_articles) + ' articulos')
+#100 most used words
+aggregated = {word: aggregate(word) for word, wordFrecs in frecs.iteritems()}
+print(sorted(aggregated.iteritems(), key=lambda x: x[1], reverse=True)[:100])
 print('a: ' + str(aggregate('a')))
 print('the: ' + str(aggregate('the')))
 print('house: ' + str(aggregate('house')))
@@ -88,6 +97,7 @@ print('')
 while True:
     word = raw_input('Entrar la palabra (\quit para salir): ')
     word = word.decode('utf-8')
+    word = word.lower()
 
     if word == '\quit':
         sys.exit(0)
