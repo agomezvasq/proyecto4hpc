@@ -4,18 +4,19 @@ import sys
 import pandas as pd
 import unicodedata
 import re
+import math
 
 frecs = {} #{ 'car': {17065: 1, 17066: 2}, 'bike': {17065: 5, 17066: 4, 17034: 6} }
 titles = {}
 
-rx = re.compile(ur'[.,:;?\"!()\[\]{}]')
+rx = re.compile(r'[.,:;?\"!()\[\]{}]')
 #Test regex
 #print(rx.sub(u' ', u'(hola()) como [estas] hey? \'yo no se\' :v ;v hey!!'))
 
 
 def aggregate(word):
     frec = 0
-    for docId, docFrec in frecs[word].iteritems():
+    for docId, docFrec in frecs[word].items():
         frec += docFrec
     return frec
 
@@ -30,26 +31,29 @@ while os.path.isfile('/opt/datasets/articles%d.csv' % i):
     file_start_time = timeit.default_timer()
     for row in df.itertuples():
         docId = int(row[1])
-        title = unicodedata.normalize('NFKD', unicode(row[2])).strip(u'\n ')
-        publication = unicodedata.normalize('NFKD', unicode(row[3]))
-        author = unicodedata.normalize('NFKD', unicode(row[4]))
+        title = unicodedata.normalize('NFKD', str(row[2])).strip(u'\n ')
+        publication = unicodedata.normalize('NFKD', str(row[3]))
+        author = unicodedata.normalize('NFKD', str(row[4]))
         date = str(row[5])
-        year = str(round(float(row[6])))
-        content = unicodedata.normalize('NFKD', unicode(row[9]))
+        if not math.isnan(row[6]):
+            year = str(round(row[6]))
+        else:
+            year = ''
+        content = unicodedata.normalize('NFKD', str(row[9]))
 
         titles[docId] = title
 
         allContent = ' '.join([title, publication, author, date, year, content])
 
         #Replacing weird quotes by normal quotes
-        allContent = allContent.replace(u'\u2018', u'\'')
-        allContent = allContent.replace(u'\u2019', u'\'')
-        allContent = allContent.replace(u'\u201c', u'"')
-        allContent = allContent.replace(u'\u201d', u'"')
-        allContent = allContent.replace(u'\u2014', u'-')
+        allContent = allContent.replace('\u2018', '\'')
+        allContent = allContent.replace('\u2019', '\'')
+        allContent = allContent.replace('\u201c', '"')
+        allContent = allContent.replace('\u201d', '"')
+        allContent = allContent.replace('\u2014', '-')
 
         #Unnecessary characters
-        allContent = rx.sub(u' ', allContent)
+        allContent = rx.sub(' ', allContent)
         
         #Make it lowercase
         allContent = allContent.lower()
@@ -59,7 +63,7 @@ while os.path.isfile('/opt/datasets/articles%d.csv' % i):
         sp = filter(None, sp)
         for word in sp:      
             #Strip spaces      
-            word = word.strip(u' ')
+            word = word.strip(' ')
 
             if not word:
                 continue
@@ -86,8 +90,8 @@ while os.path.isfile('/opt/datasets/articles%d.csv' % i):
 print('Tiempo: ' + str(int(round((timeit.default_timer() - start_time) * 1000))) + 'ms')
 print(str(len(frecs)) + ' palabras en ' + str(tn_articles) + ' articulos')
 #100 most used words
-aggregated = {word: aggregate(word) for word, wordFrecs in frecs.iteritems()}
-print(sorted(aggregated.iteritems(), key=lambda x: x[1], reverse=True)[:100])
+aggregated = {word: aggregate(word) for word, wordFrecs in frecs.items()}
+print(sorted(aggregated.items(), key=lambda x: x[1], reverse=True)[:100])
 print('a: ' + str(aggregate('a')))
 print('the: ' + str(aggregate('the')))
 print('house: ' + str(aggregate('house')))
@@ -95,8 +99,8 @@ print('house: ' + str(aggregate('house')))
 print('')
 
 while True:
-    word = raw_input('Entrar la palabra (\quit para salir): ')
-    word = word.decode('utf-8')
+    word = input('Entrar la palabra (\quit para salir): ')
+    #word = word.decode('utf-8')
     word = word.lower()
 
     if word == '\quit':
@@ -105,8 +109,8 @@ while True:
     if word in frecs:
         #Sort article frequencies by greatest
         #Only 10 first items
-        for docId, frec in sorted(frecs[word].iteritems(), key=lambda x: x[1], reverse=True)[:10]:
-            print(str(frec) + ', ' + str(docId) + ', ' + str(titles[docId].encode('utf-8')))
+        for docId, frec in sorted(frecs[word].items(), key=lambda x: x[1], reverse=True)[:10]:
+            print(str(frec) + ', ' + str(docId) + ', ' + str(titles[docId]))
     else:
         print('No existe la palabra en la base de datos!')
     print('')
