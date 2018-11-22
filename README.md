@@ -9,6 +9,7 @@ https://www.kaggle.com/snapcrack/all-the-news
 
 Un dataset conformado por 3 archivos csv, cada uno de ~50.000 artículos organizados por propiedades como título, autor, fecha, datos... Algunos de estos campos a partir de los cuáles se generará el índice inverso, por palabra y su frecuencia en cada artículo.
 
+La lectura y partición de los archivos csv se realiza con la librería pandas.
 
 # Ejecución serial
 
@@ -71,3 +72,23 @@ mpiexec -f ../hosts_mpi -n 33 /opt/anaconda3/bin/python indinv-mpi.py
 ```
 
 Si se ejecuta el programa con menos de 33 procesos y el mismo chunksize de 5000 se producirá una excepción en varios de los nodos que advierte 'NOT ENOUGH PROCESSES' y el comportamiento a partir de ahí es indefinido...
+
+# Referencias
+
+https://en.wikipedia.org/wiki/Inverted_index
+
+https://mpi4py.readthedocs.io/en/stable/tutorial.html
+
+https://info.gwdg.de/~ceulig/docs-dev/doku.php?id=en:services:application_services:high_performance_computing:mpi4py
+
+https://pandas.pydata.org/pandas-docs/stable/
+
+https://cmdlinetips.com/2018/01/how-to-load-a-massive-file-as-small-chunks-in-pandas/
+
+https://docs.python.org/3/
+
+https://www.mcs.anl.gov/~itf/dbpp/text/node15.html
+
+stackoverflow.com
+
+
