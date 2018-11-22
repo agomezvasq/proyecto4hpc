@@ -45,7 +45,9 @@ Ejemplo:
 **Asignación de 'tareas':**
 
 0 -> 3, 6, 9...
+
 1 -> 4, 7, 10...
+
 2 -> 5, 8, 11...
 
 Por eso el número total de procesos debe ser un múltiplo de 3.
