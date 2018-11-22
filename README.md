@@ -71,7 +71,7 @@ Comando:
 mpiexec -f ../hosts_mpi -n 33 /opt/anaconda3/bin/python indinv-mpi.py
 ```
 
-Si se ejecuta el programa con menos de 33 procesos y el mismo chunksize de 5000 se producirá una excepción en varios de los nodos que advierte 'NOT ENOUGH PROCESSES' y el comportamiento a partir de ahí es indefinido...
+Si se ejecuta el programa con menos de 33 procesos y el mismo chunksize de 5000 se producirá una excepción en varios de los nodos que advierte 'NOT ENOUGH PROCESSES'.
 
 # Referencias
 
