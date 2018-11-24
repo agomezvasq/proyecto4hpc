@@ -32,9 +32,9 @@ python indinv-serial.py
 
 # Ejecución paralela (MPI)
 
-La versión paralela se implementó con el paradigma de MPI (Message Passing Interface) utilizando la librería de Python mpi4py. Está configurada para 3 nodos o 'hosts' principales (leer hosts_mpi) y la creación de un número ilimitado de sub workers para ayudar a los nodos principales a contar palabras.
+La versión paralela se implementó con el paradigma de MPI (Message Passing Interface) utilizando la librería de Python mpi4py. Está configurada para 3 nodos o 'hosts' principales (leer hosts_mpi) y la creación de un número ilimitado de workers para ayudar a los nodos a contar palabras.
 
-El mejor rendimiento en tests con la arquitectura descrita en el documento pcam.md en el mismo computador con 16 procesadores Intel Xeon E6-2650 (8 cores, 16 threads c/u) fue de 12x la velocidad de la versión serial, tardando 15s para el completo procesamiento del dataset, utilizando chunks de 5000 artículos y un total de 33 procesos: 3 nodos principales + 10 * 3 workers.
+El mejor rendimiento en tests con la arquitectura descrita en el documento pcam.md, en el mismo computador con 16 procesadores Intel Xeon E6-2650 (8 cores, 16 threads c/u) fue de 12x la velocidad de la versión serial, tardando 15s para el completo procesamiento del dataset, utilizando chunks de 5000 artículos y un total de 33 procesos: 3 nodos principales + 10 * 3 workers.
 
 **Requisitos:** Python >3.6, requirements.txt, gcc y una instalación funcional de MPI
 
