@@ -1,4 +1,4 @@
-# HPC
+# Inverted Index HPC
 
 Este proyecto es una implementación tanto serial como paralelizada de la creación de un 'Índice inverso' para indexar un conjunto de palabras y su frecuencia en cada uno de los artículos de una base de datos estructurada descargada de kaggle:
 
