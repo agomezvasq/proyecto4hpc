@@ -26,22 +26,12 @@ De esta manera se facilita el acceso al 'índice inverso' y la búsqueda de cada
 
 La versión paralela se implementó con el paradigma de MPI (Message Passing Interface) utilizando la librería de Python mpi4py. La arquitectura se define con 3 nodos o hosts principales (direcciones especificadas en hosts_mpi) y la creación de un número ilimitado de workers para ayudar a los nodos principales contando palabras.
 
-Cada nodo principal lee cada uno de los archivos por 'chunks' de tamaño definido. Los nodos principales tienen asignados los ```ranks``` 0, 1 y 2. A partir de ahí, los procesos subsiguientes con ```rank``` > 2 se asignan a cada nodo como workers para el conteo. El módulo 3 del ```rank``` de un worker corresponde al ```rank``` de su nodo 'padre'. Los workers reportan sus resultados al final y los nodos agregan estos a su propio diccionario de frecuencias. 
+Cada nodo principal lee cada uno de los archivos por 'chunks' de tamaño definido. Los nodos principales tienen asignados los ```ranks``` 0, 1 y 2. Los procesos subsiguientes con ```rank``` > 2 se asignan a cada nodo como workers para el conteo. El módulo 3 del ```rank``` de un worker corresponde al 'padre'. Los workers reportan sus resultados al final y los nodos principales agregan los resultados a su propio diccionario de frecuencias. 
 
-**Procesos:**
+En search, el nodo 0 que imprime el prompt para recibir el input del usuario envía la palabra a sus compañeros, 1 y 2, para buscar en sus diccionarios de frecuencias y en el suyo propio, y agrega los resultados para imprimir los 10 primeros artículos con la mayor frecuencia de aparición de la palabra.
 
-**0**, **1**, **2**, 3, 4, 5, 6, 7, 8, 9, 10, 11...
+Más o menos la mitad del tiempo en tests, es invertida en la comunicación entre nodos y la concatenación de los resultados. 
 
-**Asignación de workers:**
+El máximo rendimiento logrado es de 12x la velocidad del programa serial, tardando solamente 15 segundos para el procesamiento completo del dataset.
 
-```0 -> 3, 6, 9...```
-
-```1 -> 4, 7, 10...```
-
-```2 -> 5, 8, 11...```
-
-En querying, el nodo 0 que imprime el prompt para recibir el input del usuario envía la palabra a sus compañeros, 1 y 2, para buscar en sus diccionarios y en el suyo propio, y agrega todos los resultados para imprimir los 10 primeros artículos con la mayor frecuencia de aparición de la palabra en cuestión.
-
-Más o menos la mitad del tiempo en tests de procesamiento es invertida en la comunicación entre nodos y entre la concatenación de los resultados. El máximo rendimiento logrado es de un aumento de 12x la velocidad de la versión serial, tardando solamente 15 segundos el procesamiento completo del dataset.
-
-Por default el ```CHUNK_SIZE = 5000``` y el ```N_PROCS = 33``` asignado (el que arrojó mejor rendimiento en los tests) asegura que el número total de artículos (~150.000) sea procesado. Si esta regla no se cumple una excepción advierte 'NOT ENOUGH PROCESSES'.
+Por default ```CHUNK_SIZE = 5000``` y ```N_PROCS = 33``` (los parámetros con mejores resultados de rendimiento en los tests) aseguran que el número total de artículos (~150.000) sea procesado. Si esta regla no se cumple una excepción advierte 'NOT ENOUGH PROCESSES'.
