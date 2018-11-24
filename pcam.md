@@ -24,7 +24,7 @@ De esta manera se facilita el acceso al 'índice inverso' y la búsqueda de cada
 
 La versión paralela se implementó con el paradigma de MPI (Message Passing Interface) utilizando la librería de Python mpi4py. La arquitectura se define con 3 nodos o hosts principales (direcciones especificadas en hosts_mpi) y la creación de un número ilimitado de workers para ayudar a los nodos principales contando palabras.
 
-Cada nodo principal lee cada uno de los archivos por 'chunks' de tamaño definido. Los nodos principales tienen asignados los ```ranks``` 0, 1 y 2. A partir de ahí, los procesos subsiguientes con ```rank``` > 2 se asignan a cada nodo como workers para el conteo. El módulo 3 del ```rank``` de un worker corresponde al ```rank``` de su nodo 'padre'. De tal manera que el principal envía chunks a workers con regla ```rank + j * 3```. Los workers envían sus resultados al final y los nodos agregan estos a su propio diccionario de frecuencias. 
+Cada nodo principal lee cada uno de los archivos por 'chunks' de tamaño definido. Los nodos principales tienen asignados los ```ranks``` 0, 1 y 2. A partir de ahí, los procesos subsiguientes con ```rank``` > 2 se asignan a cada nodo como workers para el conteo. El módulo 3 del ```rank``` de un worker corresponde al ```rank``` de su nodo 'padre'. De tal manera que el principal envía chunks a los workers con regla ```rank + j * 3```. Los workers envían sus resultados al final y los nodos agregan estos a su propio diccionario de frecuencias. 
 
 **Procesos:**
 
