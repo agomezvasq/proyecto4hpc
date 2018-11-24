@@ -4,6 +4,9 @@ Este proyecto es una implementación tanto serial como paralelizada de la creaci
 
 https://www.kaggle.com/snapcrack/all-the-news
 
+**Video explicativo (YouTube):**
+
+https://youtu.be/m_QIM9Sti4Y
 
 # Datos
 
