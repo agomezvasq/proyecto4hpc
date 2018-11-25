@@ -39,7 +39,7 @@ La versión paralela se implementó con el paradigma de MPI (Message Passing Int
 
 El mejor rendimiento en tests con la arquitectura descrita en el documento pcam.md, en el mismo computador con 16 procesadores Intel Xeon E6-2650 (8 cores, 16 threads c/u) fue de 12x la velocidad de la versión serial, tardando 15s para el completo procesamiento del dataset, utilizando chunks de 5000 artículos y un total de 33 procesos: 3 nodos principales + 10 * 3 workers.
 
-**Requisitos:** Python >3.6, requirements.txt, gcc y una instalación funcional de MPI
+**Requisitos:** Python >3.6, pandas, mpi4py, gcc y una instalación y configuración funcional de MPI
 
 Comando:
 
