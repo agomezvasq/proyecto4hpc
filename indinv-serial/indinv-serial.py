@@ -10,8 +10,6 @@ frecs = {} #{ 'car': {17065: 1, 17066: 2}, 'bike': {17065: 5, 17066: 4, 17034: 6
 titles = {}
 
 rx = re.compile(r'[.,:;?\"!()\[\]{}]')
-#Test regex
-#print(rx.sub(u' ', u'(hola()) como [estas] hey? \'yo no se\' :v ;v hey!!'))
 
 
 def aggregate(word):
@@ -100,7 +98,6 @@ print('')
 
 while True:
     word = input('Entrar la palabra (\quit para salir): ')
-    #word = word.decode('utf-8')
     word = word.lower()
 
     if word == '\quit':
