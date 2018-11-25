@@ -47,7 +47,7 @@ Comando:
 mpiexec -f ../hosts_mpi -n 33 /opt/anaconda3/bin/python indinv-mpi.py 5000
 ```
 
-El último argumento corresponde a CHUNK_SIZE. Si se ejecuta el programa con menos de 33 procesos y el mismo chunksize de 5000 se producirá una excepción en varios de los nodos que advierte 'NOT ENOUGH PROCESSES'.
+El último argumento corresponde a CHUNK_SIZE (Default: 5000). Si se ejecuta el programa con menos de 33 procesos y el mismo chunksize de 5000 se producirá una excepción en varios de los nodos que advierte 'NOT ENOUGH PROCESSES'.
 
 **Por:**
 
