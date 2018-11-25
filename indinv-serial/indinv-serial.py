@@ -85,8 +85,8 @@ while os.path.isfile('/opt/datasets/articles%d.csv' % i):
     tn_articles += n_articles
     i += 1
                 
-print('Tiempo: ' + str(int(round((timeit.default_timer() - start_time) * 1000))) + 'ms')
-print(str(len(frecs)) + ' palabras en ' + str(tn_articles) + ' articulos')
+print('Time: ' + str(int(round((timeit.default_timer() - start_time) * 1000))) + 'ms')
+print(str(len(frecs)) + ' words in ' + str(tn_articles) + ' articles')
 #100 most used words
 aggregated = {word: aggregate(word) for word, wordFrecs in frecs.items()}
 print(sorted(aggregated.items(), key=lambda x: x[1], reverse=True)[:100])
@@ -97,7 +97,7 @@ print('house: ' + str(aggregate('house')))
 print('')
 
 while True:
-    word = input('Entrar la palabra (\quit para salir): ')
+    word = input('Enter query (\quit to exit): ')
     word = word.lower()
 
     if word == '\quit':
@@ -109,5 +109,5 @@ while True:
         for docId, frec in sorted(frecs[word].items(), key=lambda x: x[1], reverse=True)[:10]:
             print(str(frec) + ', ' + str(docId) + ', ' + str(titles[docId]))
     else:
-        print('No existe la palabra en la base de datos!')
+        print('The word doesn\'t exist in the database')
     print('')
