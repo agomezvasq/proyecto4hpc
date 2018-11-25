@@ -44,10 +44,10 @@ El mejor rendimiento en tests con la arquitectura descrita en el documento pcam.
 Comando:
 
 ```
-mpiexec -f ../hosts_mpi -n 33 /opt/anaconda3/bin/python indinv-mpi.py
+mpiexec -f ../hosts_mpi -n 33 /opt/anaconda3/bin/python indinv-mpi.py 5000
 ```
 
-Si se ejecuta el programa con menos de 33 procesos y el mismo chunksize de 5000 se producirá una excepción en varios de los nodos que advierte 'NOT ENOUGH PROCESSES'.
+El último argumento corresponde a CHUNK_SIZE. Si se ejecuta el programa con menos de 33 procesos y el mismo chunksize de 5000 se producirá una excepción en varios de los nodos que advierte 'NOT ENOUGH PROCESSES'.
 
 **Por:**
 
