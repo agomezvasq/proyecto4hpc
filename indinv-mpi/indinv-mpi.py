@@ -14,7 +14,10 @@ size = comm.size
 N_PROCS = size
 
 #Chunk size * (N_PROCS - 3) must be > than the total number of articles
-CHUNK_SIZE = 5000
+if len(sys.argv) == 1:
+    CHUNK_SIZE = 5000
+else:
+    CHUNK_SIZE = int(sys.argv[1])
 
 #Useful data structs
 frecs = {} #{ 'car': {17065: 1, 17066: 2}, 'bike': {17065: 5, 17066: 4, 17034: 6} }
